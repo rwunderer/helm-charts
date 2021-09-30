@@ -1,0 +1,17 @@
+apiVersion: v1
+entries:
+  passless:
+  - apiVersion: v2
+    appVersion: v0.2.0
+    created: "2021-09-30T12:47:44.306377708Z"
+    description: A Helm chart for Kubernetes
+    digest: a440c07919ff85db8c0f8c0e6b88140a652c0091ade54de0356483f809115f87
+    name: passless
+    sources:
+    - https://github.com/wavesoftware/passless-operator
+    - https://github.com/rwunderer/helm-charts
+    type: application
+    urls:
+    - https://github.com/rwunderer/helm-charts/releases/download/passless-0.1.1/passless-0.1.1.tgz
+    version: 0.1.1
+generated: "2021-09-30T12:47:44.306384009Z"
