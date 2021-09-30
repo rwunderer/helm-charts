@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "passless.fullname" . }}
+  name: {{ include "passless-operator.fullname" . }}
   labels:
-    {{- include "passless.labels" . | nindent 4 }}
+    {{- include "passless-operator.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "passless.fullname" . }}
+    name: {{ include "passless-operator.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

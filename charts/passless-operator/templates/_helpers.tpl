@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "passless.name" -}}
+{{- define "passless-operator.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "passless.fullname" -}}
+{{- define "passless-operator.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "passless.chart" -}}
+{{- define "passless-operator.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "passless.labels" -}}
-helm.sh/chart: {{ include "passless.chart" . }}
-{{ include "passless.selectorLabels" . }}
+{{- define "passless-operator.labels" -}}
+helm.sh/chart: {{ include "passless-operator.chart" . }}
+{{ include "passless-operator.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "passless.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "passless.name" . }}
+{{- define "passless-operator.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "passless-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "passless.serviceAccountName" -}}
+{{- define "passless-operator.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "passless.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "passless-operator.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
