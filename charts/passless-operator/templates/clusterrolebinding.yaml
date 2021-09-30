@@ -2,19 +2,19 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "passless.serviceAccountName" . }}
+  name: {{ include "passless-operator.serviceAccountName" . }}
   labels:
-    {{- include "passless.labels" . | nindent 4 }}
+    {{- include "passless-operator.labels" . | nindent 4 }}
   {{- with .Values.serviceAccount.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 subjects:
 - kind: ServiceAccount
-  name: {{ include "passless.serviceAccountName" . }}
+  name: {{ include "passless-operator.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "passless.serviceAccountName" . }}
+  name: {{ include "passless-operator.serviceAccountName" . }}
   apiGroup: rbac.authorization.k8s.io
 {{- end -}}
