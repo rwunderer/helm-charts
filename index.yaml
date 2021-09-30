@@ -3,6 +3,22 @@ entries:
   passless-operator:
   - apiVersion: v2
     appVersion: v0.2.0
+    created: "2021-09-30T14:40:46.424493047Z"
+    description: Secret Management without the need for storage
+    digest: 6a0862e59fc0fc8192d887675a4301c93733796bbc4b0dffdbe4783b171163ed
+    maintainers:
+    - email: techsupport@caprisys.net
+      name: rwunderer
+    name: passless-operator
+    sources:
+    - https://github.com/wavesoftware/passless-operator
+    - https://github.com/rwunderer/helm-charts/tree/main/charts/passless-operator
+    type: application
+    urls:
+    - https://github.com/rwunderer/helm-charts/releases/download/passless-operator-0.1.11/passless-operator-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: v0.2.0
     created: "2021-09-30T14:28:59.851070981Z"
     description: Secret Management without the need for storage
     digest: c0bac785020a65163a2c8763bb07019329407a1fa2030375f00295a621d19122
@@ -53,4 +69,4 @@ entries:
     urls:
     - https://github.com/rwunderer/helm-charts/releases/download/passless-operator-0.1.0/passless-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2021-09-30T14:28:59.851089081Z"
+generated: "2021-09-30T14:40:46.424511047Z"
