@@ -23,6 +23,10 @@ version: 0.1.3
 # It is recommended to use it with quotes.
 appVersion: "v0.2.0"
 
+maintainers:
+  - name: rwunderer
+    email: techsupport@caprisys.net
+
 sources:
   - https://github.com/wavesoftware/passless-operator
   - https://github.com/rwunderer/helm-charts/tree/main/charts/passless-operator

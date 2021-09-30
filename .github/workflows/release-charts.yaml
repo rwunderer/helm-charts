@@ -24,11 +24,23 @@ jobs:
         with:
           version: v3.5.4
 
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.1.0
 
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config .github/ct-main.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
+
       - name: Run chart-testing (lint)
-        run: ct lint --config .github/ct-main.yaml
+        run: ct lint --check-version-increment=false --config .github/ct-main.yaml
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.1
