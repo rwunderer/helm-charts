@@ -1,0 +1,130 @@
+{{- if .Values.networkPolicy.enable }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-kivitendo-ingress-traefik
+  namespace: kivitendo
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kivitendo
+  policyTypes:
+  - Ingress
+  ingress:
+    - from: {{ .Values.networkPolicy.ingressSelector | toYaml | nindent 6 }}
+      ports:
+      - protocol: TCP
+        port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kivitendo-smtp
+  namespace: kivitendo
+spec:
+  egress:
+    - ports:
+      - port: 25
+        protocol: TCP
+      - port: 465
+        protocol: TCP
+      to:
+      - ipBlock:
+          cidr: 0.0.0.0/0
+          except:
+          - 169.254.169.254/32
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kivitendo
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-postgres-from-kivitendo
+  namespace: kivitendo
+spec:
+  ingress:
+    - ports:
+      - port: 5432
+        protocol: TCP
+      from:
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/name: kivitendo
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/name: kivitendo-backup
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      role: primary
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kivitendo-to-postgres
+  namespace: kivitendo
+spec:
+  egress:
+    - ports:
+      - port: 5432
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/name: postgresql
+            role: primary
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kivitendo
+  policyTypes:
+  - Egress
+---
+{{ if .Values.backupJob.enable }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kivitendo-backup-to-postgres
+  namespace: kivitendo
+spec:
+  egress:
+    - ports:
+      - port: 5432
+        protocol: TCP
+      to:
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/name: postgresql
+            role: primary
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kivitendo-backup
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-kivitendo-backup-to-https
+  namespace: kivitendo
+spec:
+  egress:
+    - ports:
+      - port: 443
+        protocol: TCP
+      to:
+      - ipBlock:
+          cidr: 0.0.0.0/0
+          except:
+          - 169.254.169.254/32
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kivitendo-backup
+  policyTypes:
+  - Egress
+{{- end }}
+{{- end }}

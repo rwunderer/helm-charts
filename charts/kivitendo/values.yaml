@@ -48,6 +48,17 @@ backupJob:
     pullPolicy: IfNotPresent
     tag: "v0.5.0"
 
+networkPolicy:
+  enable: false
+
+  ingressSelector:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: traefik
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
