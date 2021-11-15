@@ -3,6 +3,23 @@ entries:
   kivitendo:
   - apiVersion: v2
     appVersion: v3.5.8
+    created: "2021-11-15T17:43:52.19877133Z"
+    description: Helm chart for Kivitendo ERP
+    digest: b69e774ca4dcdd683203b3db74319a8198819d1620bff5ac1c7486cfc5b2824a
+    maintainers:
+    - email: techsupport@caprisys.net
+      name: rwunderer
+    name: kivitendo
+    sources:
+    - https://github.com/kivitendo/kivitendo-erp
+    - https://github.com/rwunderer/kivitendo
+    - https://github.com/rwunderer/helm-charts/tree/main/charts/kivitendo
+    type: application
+    urls:
+    - https://github.com/rwunderer/helm-charts/releases/download/kivitendo-1.3.2/kivitendo-1.3.2.tgz
+    version: 1.3.2
+  - apiVersion: v2
+    appVersion: v3.5.8
     created: "2021-11-15T17:27:27.288740705Z"
     description: Helm chart for Kivitendo ERP
     digest: 45888cfe7c9691625ac6f5bbaf67dcbd62fd4bb2e1f9d42bd67feb30ff40cfc7
@@ -169,4 +186,4 @@ entries:
     urls:
     - https://github.com/rwunderer/helm-charts/releases/download/passless-operator-0.1.0/passless-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2021-11-15T17:27:27.288771706Z"
+generated: "2021-11-15T17:43:52.198812231Z"
