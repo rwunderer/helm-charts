@@ -32,6 +32,22 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+backupJob:
+  enable: false
+
+  schedule: "7 1 * * *"
+  dbRegex: "(caprisys|creadomus|kivitendo_auth)"
+
+  existingSecretName: "kivitendo-backup"
+  s3Endpoint: ""
+  s3BaseUrl: ""
+  gpgRecipient: ""
+
+  image:
+    repository: rwunderer/postgres-s3backup
+    pullPolicy: IfNotPresent
+    tag: "v0.5.0"
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
