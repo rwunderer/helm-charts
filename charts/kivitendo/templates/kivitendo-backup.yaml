@@ -119,3 +119,4 @@ spec:
                 secretName: {{ .Values.backupJob.existingSecretName }}
             - name: home
               emptyDir: {}
+{{- end }}
