@@ -43,6 +43,11 @@ backupJob:
   s3BaseUrl: ""
   gpgRecipient: ""
 
+  postgresUser: "postgres"
+  postgresSecret:
+    name: ""
+    key: ""
+
   image:
     repository: rwunderer/postgres-s3backup
     pullPolicy: IfNotPresent
