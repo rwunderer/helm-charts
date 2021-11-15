@@ -3,6 +3,7 @@
 # helm-charts
 Helm charts for various public projects
 
+* [Kivitendo](https://github.com/kivitendo/kivitendo-erp)
 * [Passless Operator](https://github.com/wavesoftware/passless-operator)
 
 ## Installing Charts from this Repository

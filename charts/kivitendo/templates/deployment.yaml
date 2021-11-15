@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kivitendo.fullname" . }}
+  labels:
+    {{- include "kivitendo.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "kivitendo.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "kivitendo.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "kivitendo.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      shareProcessNamespace: true
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: POSTGRES_HOST
+              value: "{{ .Values.database.postgresHost }}"
+            - name: POSTGRES_USER
+              value: "{{ .Values.database.postgresUser }}"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.postgresSecret.name }}
+                  key: {{ .Values.database.postgresSecret.key }}
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kivitendo.adminSecret.name }}
+                  key: {{ .Values.kivitendo.adminSecret.key }}
+            - name: SMTP_HOST
+              value: "{{ .Values.kivitendo.smtpHost }}"
+            - name: SMTP_SECURITY
+              value: "{{ .Values.kivitendo.smtpSecurity }}"
+            - name: SMTP_LOGIN
+              value: "{{ .Values.kivitendo.smtpLogin }}"
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kivitendo.smtpSecret.name }}
+                  key: {{ .Values.kivitendo.smtpSecret.key }}
+          ports:
+            - name: http-alt
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http-alt
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http-alt
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: fcgi-tmp
+              mountPath: /var/lib/apache2/fcgid
+            - name: users
+              mountPath: /var/www/kivitendo-erp/users
+            - name: spool
+              mountPath: /var/www/kivitendo-erp/spool
+            - name: webdav
+              mountPath: /var/www/kivitendo-erp/webdav
+            - name: config
+              mountPath: /var/www/kivitendo-erp/config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: taskserver
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [ "/usr/local/bin/startTaskserver.sh" ]
+          env:
+            - name: POSTGRES_HOST
+              value: "{{ .Values.database.postgresHost }}"
+            - name: POSTGRES_USER
+              value: "{{ .Values.database.postgresUser }}"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.postgresSecret.name }}
+                  key: {{ .Values.database.postgresSecret.key }}
+            - name: SMTP_HOST
+              value: "{{ .Values.kivitendo.smtpHost }}"
+            - name: SMTP_SECURITY
+              value: "{{ .Values.kivitendo.smtpSecurity }}"
+            - name: SMTP_LOGIN
+              value: "{{ .Values.kivitendo.smtpLogin }}"
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kivitendo.smtpSecret.name }}
+                  key: {{ .Values.kivitendo.smtpSecret.key }}
+          livenessProbe:
+            exec:
+              command: [ "/usr/local/bin/probeTaskserver.sh" ]
+            initialDelaySeconds: 300
+            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command: [ "/usr/local/bin/probeTaskserver.sh" ]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: users
+              mountPath: /var/www/kivitendo-erp/users
+            - name: spool
+              mountPath: /var/www/kivitendo-erp/spool
+            - name: webdav
+              mountPath: /var/www/kivitendo-erp/webdav
+            - name: config
+              mountPath: /var/www/kivitendo-erp/config
+          resources:
+            {{- toYaml .Values.taskserver.resources | nindent 12 }}
+      volumes:
+        - name: tmp
+          emptyDir:
+            medium: Memory
+        - name: fcgi-tmp
+          emptyDir:
+            medium: Memory
+        - name: users
+          emptyDir: {}
+        - name: spool
+          emptyDir: {}
+        - name: webdav
+          emptyDir: {}
+        - name: config
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
