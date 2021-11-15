@@ -10,10 +10,6 @@ metadata:
   labels:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/name: {{ include "kivitendo.fullname" . }}-backup
-  name: {{ include "kivitendo.fullname" . }}-backup
-  labels:
-    {{- include "kivitendo.labels" . | nindent 4 }}
-spec:
 spec:
   schedule: {{ .Values.backupJob.schedule | quote }}
   concurrencyPolicy: Forbid
