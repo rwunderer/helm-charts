@@ -60,3 +60,16 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Required claims serialized to CLI argument
+*/}}
+{{- define "requiredClaims" -}}
+{{- if .Values.oidc.requiredClaims -}}
+{{- $local := (list) -}}
+{{- range $k, $v := .Values.oidc.requiredClaims -}}
+{{- $local = (printf "%s=%s" $k $v | append $local) -}}
+{{- end -}}
+{{ join "," $local }}
+{{- end -}}
+{{- end -}}
