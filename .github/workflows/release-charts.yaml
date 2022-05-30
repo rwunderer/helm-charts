@@ -42,18 +42,6 @@ jobs:
       - name: Run chart-testing (lint)
         run: ct lint --check-version-increment=false --config .github/ct-main.yaml
 
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
-      - name: Test with Checkov
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: charts
-          framework: helm 
-
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.1
         with:
