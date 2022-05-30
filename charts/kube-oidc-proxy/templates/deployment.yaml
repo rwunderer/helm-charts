@@ -1,3 +1,6 @@
+{{ $fullname := include "kube-oidc-proxy.fullname" . }}
+{{ $defaultTlsSecretName := printf "%s-tls" $fullname }}
+{{ $tlsSecretName := .Values.tls.secretName | default $defaultTlsSecretName }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
