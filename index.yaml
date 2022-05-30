@@ -72,6 +72,22 @@ entries:
   kube-oidc-proxy:
   - apiVersion: v2
     appVersion: v0.3.0
+    created: "2022-05-30T17:42:39.94031368Z"
+    description: A Helm chart for kube-oidc-proxy
+    digest: a28f046de2aeb7943f110a800b82a40be64a5f52ce39ce7688c6f6be903ec34b
+    maintainers:
+    - email: techsupport@caprisys.net
+      name: rwunderer
+    name: kube-oidc-proxy
+    sources:
+    - https://github.com/jetstack/kube-oidc-proxy
+    - https://github.com/rwunderer/helm-charts/tree/main/charts/kube-oidc-proxy
+    type: application
+    urls:
+    - https://github.com/rwunderer/helm-charts/releases/download/kube-oidc-proxy-0.4.1/kube-oidc-proxy-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
+    appVersion: v0.3.0
     created: "2022-05-30T17:32:45.531751522Z"
     description: A Helm chart for kube-oidc-proxy
     digest: db09efee7d47f25482d0cf9dcca66d69d2a95ddc0be30c7204ad25da7283d9a1
@@ -332,4 +348,4 @@ entries:
     urls:
     - https://github.com/rwunderer/helm-charts/releases/download/sealed-secrets-1.16.1/sealed-secrets-1.16.1.tgz
     version: 1.16.1
-generated: "2022-05-30T17:32:45.531809623Z"
+generated: "2022-05-30T17:42:39.940417481Z"
