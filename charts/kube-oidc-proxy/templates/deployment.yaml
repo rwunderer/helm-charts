@@ -38,7 +38,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["kube-oidc-proxy"]
           args:
-            - "--secure-port=443"
+            - "--secure-port=8443"
             - "--tls-cert-file=/etc/oidc/tls/crt.pem"
             - "--tls-private-key-file=/etc/oidc/tls/key.pem"
             - "--oidc-client-id=$(OIDC_CLIENT_ID)"
@@ -130,10 +130,10 @@ spec:
           {{ end }}
           ports:
             - name: http-alt
-              containerPort: 8090
+              containerPort: 8080
               protocol: TCP
-            - name: https
-              containerPort: 443
+            - name: https-alt
+              containerPort: 8443
               protocol: TCP
           livenessProbe:
             httpGet:

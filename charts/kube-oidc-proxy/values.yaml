@@ -41,7 +41,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 443
+  port: 8443
 
 tls:
   # `secretName` must be a name of Secret of TLS type. If not provided a
