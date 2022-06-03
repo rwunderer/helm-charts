@@ -8,16 +8,16 @@ database:
   postgresHost: "postgres"
   postgresUser: "postgres"
   postgresSecret:
-    name: ""
-    key: ""
+    name: "kivitendo-postgres"
+    key: "postgres-passwod"
 
 kivitendo:
   adminSecret:
-    name: ""
-    key: ""
+    name: "kivitendo-admin"
+    key: "admin-password"
   smtpSecret:
-    name: ""
-    key: ""
+    name: "kivitendo-smtp"
+    key: "smtp-password"
   smtpHost: "localhost"
   smtpSecurity: "tls"
   smtpLogin: ""
