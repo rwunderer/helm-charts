@@ -1,5 +1,7 @@
 [![GitHub license](https://img.shields.io/github/license/rwunderer/helm-charts.svg)](https://github.com/rwunderer/helm-charts/blob/main/LICENSE)
 
+# This project has moved to https://github.com/caprisys/helm-charts
+
 # helm-charts
 Helm charts for various public projects
 
